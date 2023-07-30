@@ -8,7 +8,13 @@ set (SUB_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/subdirs")
 set (IDENTIFIER "io/hasibix/hasilwgdf/core")
 set (SOURCE_DIR "src/main/cpp/${IDENTIFIER}")
 
+add_definitions(-DNOMINMAX -DSDL_MAIN_HANDLED)
+
 include (GNUInstallDirs)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
+
+find_package(Vulkan REQUIRED)
 
 if (NOT DEFINED BUILD_SHARED_LIBS)
     set (BUILD_SHARED_LIBS OFF)
@@ -17,13 +23,13 @@ endif ()
 set (SOURCES
     "include/HasiLWGDF_Core.h"
     "${SOURCE_DIR}/HasiLWGDF_Core.cpp"
-    "${SOURCE_DIR}/render/Renderer.h"
+    "${SOURCE_DIR}/Renderer.h"
 )
 
 if (APPLE)
-    set(SOURCES ${SOURCES} "${SOURCE_DIR}/render/Renderer.cpp" "${SOURCE_DIR}/render/Renderer.mm")
+    set(SOURCES ${SOURCES} "${SOURCE_DIR}/Renderer.cpp" "${SOURCE_DIR}/Renderer.mm")
 else ()
-    set(SOURCES ${SOURCES} "${SOURCE_DIR}/render/Renderer.cpp")
+    set(SOURCES ${SOURCES} "${SOURCE_DIR}/Renderer.cpp")
 endif ()
 
 if (${BUILD_SHARED_LIBS})
@@ -40,7 +46,7 @@ CPMAddPackage ("gh:assimp/assimp#v5.2.5")
 CPMAddPackage ("gh:erincatto/box2d#v2.4.1")
 CPMAddPackage ("gh:KhronosGroup/OpenXR-SDK#release-1.0.27")
 
-set (DEPENDENCIES SDL2-static box2d Assimp pthread OPENXR)
+set (DEPENDENCIES SDL2-static box2d Assimp pthread OPENXR Vulkan::Vulkan)
 
 set (INCLUDE_DIRS ${SDL2_INCLUDE_DIRS})
 

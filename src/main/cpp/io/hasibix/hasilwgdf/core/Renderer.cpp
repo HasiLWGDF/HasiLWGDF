@@ -1,4 +1,5 @@
-#include <Renderer.h>
+#include <HasiLWGDF_Core.h>
+#include "Renderer.h"
 
 using namespace std;
 
@@ -6,8 +7,11 @@ namespace Hasibix::HasiLWGDF::Core
 {
         namespace Render
         {
-                unique_ptr<SoftwareRenderer> initSoftware(SDL_Window *window, Game::Game *instance)
+                pair<SDL_Window *, unique_ptr<SoftwareRenderer>> initSoftware(Game::Game *instance)
                 {
+                        SDL_Window *window = SDL_CreateWindow(instance->getWindow().title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, instance->getWindow().width, instance->getWindow().height,
+                                                              SDL_WINDOW_RESIZABLE |
+                                                                  SDL_WINDOW_SHOWN);
                         SDL_Surface *surface = SDL_GetWindowSurface(window);
                         SDL_Renderer *ctx;
                         if (instance->getRenderer()->getVsync())
@@ -18,16 +22,20 @@ namespace Hasibix::HasiLWGDF::Core
                         {
                                 ctx = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
                         }
-                        return make_unique<SoftwareRenderer>(SoftwareRenderer{ctx});
+                        return pair<SDL_Window *, unique_ptr<SoftwareRenderer>>{window, make_unique<SoftwareRenderer>(SoftwareRenderer{ctx})};
                 }
-                void renderSoftware(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<SoftwareRenderer> renderer)
+                void renderSoftware(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<SoftwareRenderer> &renderer)
                 {
                         return;
                 }
 
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_OPENGL)
-                unique_ptr<OpenGLRenderer> initOpenGL(SDL_Window *window, Game::Game *instance)
+                pair<SDL_Window *, unique_ptr<OpenGLRenderer>> initOpenGL(Game::Game *instance)
                 {
+                        SDL_Window *window = SDL_CreateWindow(instance->getWindow().title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, instance->getWindow().width, instance->getWindow().height,
+                                                              SDL_WINDOW_RESIZABLE |
+                                                                  SDL_WINDOW_SHOWN |
+                                                                  SDL_WINDOW_OPENGL);
                         if (instance->getRenderer()->getAPI() == Renderer::API::OpenGL32)
                         {
                                 SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
@@ -82,11 +90,6 @@ namespace Hasibix::HasiLWGDF::Core
                                 SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
                                 SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
                         }
-                        else
-                        {
-                                cout << "Invalid graphics API. Please initialize the appropriate context for the selected API." << endl;
-                                return nullptr;
-                        }
                         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
                         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
                         SDL_GLContext ctx = SDL_GL_CreateContext(window);
@@ -99,17 +102,21 @@ namespace Hasibix::HasiLWGDF::Core
                                 SDL_GL_SetSwapInterval(0);
                         }
 
-                        return make_unique<OpenGLRenderer>(OpenGLRenderer{make_unique<SDL_GLContext>(ctx)});
+                        return pair<SDL_Window *, unique_ptr<OpenGLRenderer>>{window, make_unique<OpenGLRenderer>(OpenGLRenderer{make_unique<SDL_GLContext>(ctx)})};
                 }
-                void renderOpenGL(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<OpenGLRenderer> renderer)
+                void renderOpenGL(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<OpenGLRenderer> &renderer)
                 {
                         return;
                 }
 #endif
 
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_OPENGL_ES)
-                unique_ptr<OpenGLESRenderer> initOpenGLES(SDL_Window *window, Game::Game *instance)
+                pair<SDL_Window *, unique_ptr<OpenGLESRenderer>> initOpenGLES(Game::Game *instance)
                 {
+                        SDL_Window *window = SDL_CreateWindow(instance->getWindow().title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, instance->getWindow().width, instance->getWindow().height,
+                                                              SDL_WINDOW_RESIZABLE |
+                                                                  SDL_WINDOW_SHOWN |
+                                                                  SDL_WINDOW_OPENGL);
                         if (instance->getRenderer()->getAPI() == Renderer::API::OpenGLES30)
                         {
                                 SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
@@ -128,11 +135,6 @@ namespace Hasibix::HasiLWGDF::Core
                                 SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
                                 SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
                         }
-                        else
-                        {
-                                cout << "Invalid graphics API. Please initialize the appropriate context for the selected API." << endl;
-                                return nullptr;
-                        }
                         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
                         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
                         SDL_GLContext ctx = SDL_GL_CreateContext(window);
@@ -145,35 +147,20 @@ namespace Hasibix::HasiLWGDF::Core
                                 SDL_GL_SetSwapInterval(0);
                         }
 
-                        return make_unique<OpenGLESRenderer>(OpenGLESRenderer{make_unique<SDL_GLContext>(ctx)});
+                        return pair<SDL_Window *, unique_ptr<OpenGLESRenderer>>{window, make_unique<OpenGLESRenderer>(OpenGLESRenderer{make_unique<SDL_GLContext>(ctx)})};
                 }
-                void renderOpenGLES(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<OpenGLESRenderer> renderer)
+                void renderOpenGLES(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<OpenGLESRenderer> &renderer)
                 {
                         return;
                 }
 #endif
 
-                // #if !defined(HASILWGDF_GRAPHICS_API_SUPPORTED_PSGL)
-                //                 auto *initPSGL(SDL_Window *window, Game::Game * instance)
-                //                 {
-                //                 }
-                // #endif
-
-                // #if !defined(HASILWGDF_GRAPHICS_API_SUPPORTED_GNM)
-                //                 auto *initGNM(SDL_Window *window, Game::Game * instance)
-                //                 {
-                //                 }
-                // #endif
-
-                // #if !defined(HASILWGDF_GRAPHICS_API_SUPPORTED_GNMX)
-                //                 auto *initGNMX(SDL_Window *window, Game::Game * instance)
-                //                 {
-                //                 }
-                // #endif
-
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_DIRECTX)
-                unique_ptr<D3D9Renderer> initDirectX9(SDL_Window *window, Game::Game *instance)
+                pair<SDL_Window *, unique_ptr<D3D9Renderer>> initDirectX9(Game::Game *instance)
                 {
+                        SDL_Window *window = SDL_CreateWindow(instance->getWindow().title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, instance->getWindow().width, instance->getWindow().height,
+                                                              SDL_WINDOW_RESIZABLE |
+                                                                  SDL_WINDOW_SHOWN);
                         SDL_Renderer *renderer;
                         if (instance->getRenderer()->getVsync())
                         {
@@ -184,14 +171,17 @@ namespace Hasibix::HasiLWGDF::Core
                                 renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
                         }
                         IDirect3DDevice9 *ctx = SDL_RenderGetD3D9Device(renderer);
-                        return make_unique<D3D9Renderer>(D3D9Renderer{ctx, renderer});
+                        return pair<SDL_Window *, unique_ptr<D3D9Renderer>>{window, make_unique<D3D9Renderer>(D3D9Renderer{ctx, renderer})};
                 }
-                void renderDirectX9(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D9Renderer> renderer)
+                void renderDirectX9(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D9Renderer> &renderer)
                 {
                         return;
                 }
-                unique_ptr<D3D11Renderer> initDirectX11(SDL_Window *window, Game::Game *instance)
+                pair<SDL_Window *, unique_ptr<D3D11Renderer>> initDirectX11(Game::Game *instance)
                 {
+                        SDL_Window *window = SDL_CreateWindow(instance->getWindow().title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, instance->getWindow().width, instance->getWindow().height,
+                                                              SDL_WINDOW_RESIZABLE |
+                                                                  SDL_WINDOW_SHOWN);
                         SDL_Renderer *renderer;
                         if (instance->getRenderer()->getVsync())
                         {
@@ -202,14 +192,17 @@ namespace Hasibix::HasiLWGDF::Core
                                 renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
                         }
                         ID3D11Device *ctx = SDL_RenderGetD3D11Device(renderer);
-                        return make_unique<D3D11Renderer>(D3D11Renderer{ctx, renderer});
+                        return pair<SDL_Window *, unique_ptr<D3D11Renderer>>{window, make_unique<D3D11Renderer>(D3D11Renderer{ctx, renderer})};
                 }
-                void renderDirectX11(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D11Renderer> renderer)
+                void renderDirectX11(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D11Renderer> &renderer)
                 {
                         return;
                 }
-                unique_ptr<D3D12Renderer> initDirectX12(SDL_Window *window, Game::Game *instance)
+                pair<SDL_Window *, unique_ptr<D3D12Renderer>> initDirectX12(Game::Game *instance)
                 {
+                        SDL_Window *window = SDL_CreateWindow(instance->getWindow().title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, instance->getWindow().width, instance->getWindow().height,
+                                                              SDL_WINDOW_RESIZABLE |
+                                                                  SDL_WINDOW_SHOWN);
                         SDL_Renderer *renderer;
                         if (instance->getRenderer()->getVsync())
                         {
@@ -220,26 +213,71 @@ namespace Hasibix::HasiLWGDF::Core
                                 renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
                         }
                         ID3D12Device *ctx = SDL_RenderGetD3D12Device(renderer);
-                        return make_unique<D3D12Renderer>(D3D12Renderer{ctx, renderer});
+                        return pair<SDL_Window *, unique_ptr<D3D12Renderer>>{window, make_unique<D3D12Renderer>(D3D12Renderer{ctx, renderer})};
                 }
-                void renderDirectX12(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D12Renderer> renderer)
+                void renderDirectX12(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D12Renderer> &renderer)
                 {
                         return;
                 }
 #endif
 
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_METAL)
-                void renderMetalCpp(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<MetalRenderer> renderer)
+                void renderMetalCpp(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<MetalRenderer> &renderer)
                 {
+                        return;
                 }
 #endif
 
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_VULKAN)
-                unique_ptr<VulkanRenderer> initVulkan(SDL_Window *window, Game::Game *instance)
+                pair<SDL_Window *, unique_ptr<VulkanRenderer>> initVulkan(Game::Game *instance)
                 {
-                        return NULL;
+                        SDL_Window *window = SDL_CreateWindow(instance->getWindow().title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, instance->getWindow().width, instance->getWindow().height,
+                                                              SDL_WINDOW_RESIZABLE |
+                                                                  SDL_WINDOW_SHOWN |
+                                                                  SDL_WINDOW_VULKAN);
+                        uint32_t extensionCount;
+                        SDL_Vulkan_GetInstanceExtensions(window, &extensionCount, nullptr);
+                        vector<const char *> extensionNames(extensionCount);
+                        SDL_Vulkan_GetInstanceExtensions(window, &extensionCount, extensionNames.data());
+                        VkApplicationInfo appInfo{};
+                        appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+                        appInfo.pApplicationName = instance->getWindow().title;
+                        appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+                        appInfo.pEngineName = "HasiLWGDF Renderer";
+                        appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+                        if (instance->getRenderer()->getAPI() == Renderer::API::Vulkan10)
+                                appInfo.apiVersion = VK_API_VERSION_1_0;
+                        else if (instance->getRenderer()->getAPI() == Renderer::API::Vulkan11)
+                                appInfo.apiVersion = VK_API_VERSION_1_1;
+                        else if (instance->getRenderer()->getAPI() == Renderer::API::Vulkan12)
+                                appInfo.apiVersion = VK_API_VERSION_1_2;
+                        else if (instance->getRenderer()->getAPI() == Renderer::API::Vulkan13)
+                                appInfo.apiVersion = VK_API_VERSION_1_3;
+                        vector<const char *> layerNames{};
+                        VkInstanceCreateInfo info{};
+                        info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+                        info.pApplicationInfo = &appInfo;
+                        info.enabledLayerCount = layerNames.size();
+                        info.ppEnabledLayerNames = layerNames.data();
+                        info.enabledExtensionCount = extensionNames.size();
+                        info.ppEnabledExtensionNames = extensionNames.data();
+                        VkResult res;
+                        VkInstance vkInst;
+                        res = vkCreateInstance(&info, nullptr, &vkInst);
+                        if (res != VK_SUCCESS)
+                        {
+                                cout << "Failed to create Vulkan instance." << endl;
+                                return pair<SDL_Window *, unique_ptr<VulkanRenderer>>{nullptr, nullptr};
+                        }
+                        VkSurfaceKHR surface;
+                        if (!SDL_Vulkan_CreateSurface(window, vkInst, &surface))
+                        {
+                                cout << "Failed to create Vulkan surface." << endl;
+                                return pair<SDL_Window *, unique_ptr<VulkanRenderer>>{nullptr, nullptr};
+                        }
+                        return pair<SDL_Window *, unique_ptr<VulkanRenderer>>{window, make_unique<VulkanRenderer>(VulkanRenderer{vkInst, surface})};
                 }
-                void renderVulkan(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<VulkanRenderer> renderer)
+                void renderVulkan(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<VulkanRenderer> &renderer)
                 {
                         return;
                 }

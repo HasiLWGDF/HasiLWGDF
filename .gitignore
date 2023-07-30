@@ -99,3 +99,9 @@ build/*
 .vscode/*
 /.vscode/*
 /vscode/
+
+# Visual Studio
+.vs/
+.vs/*
+/.vs/*
+/vs/

@@ -38,15 +38,17 @@
 #endif
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_VULKAN)
 #include <SDL_vulkan.h>
-// #include <vulkan/vulkan.h>
+#include <vulkan/vulkan.h>
 #endif
 
 namespace Hasibix::HasiLWGDF::Core
 {
     namespace Render
     {
+#ifdef __cplusplus
         extern "C"
         {
+#endif
             typedef struct SoftwareRenderer
             {
                 SDL_Renderer *ctx;
@@ -90,89 +92,73 @@ namespace Hasibix::HasiLWGDF::Core
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_VULKAN)
             typedef struct VulkanRenderer
             {
-                SDL_Renderer *renderer;
+                VkInstance instance;
+                VkSurfaceKHR surface;
             } VulkanRenderer;
 #endif
+#ifdef __cplusplus
         }
-
-        unique_ptr<SoftwareRenderer> initSoftware(SDL_Window *window, Game::Game *instance);
-        void deinitSoftware(unique_ptr<SoftwareRenderer> renderer)
+#endif
+        pair<SDL_Window *, unique_ptr<SoftwareRenderer>> initSoftware(Game::Game *instance);
+        void deinitSoftware(unique_ptr<SoftwareRenderer> &renderer)
         {
             SDL_DestroyRenderer(renderer->ctx);
         }
-        void renderSoftware(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<SoftwareRenderer> renderer);
+        void renderSoftware(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<SoftwareRenderer> &renderer);
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_OPENGL)
-        unique_ptr<OpenGLRenderer> initOpenGL(SDL_Window *window, Game::Game *instance);
-        void deinitOpenGL(unique_ptr<OpenGLRenderer> renderer)
+        pair<SDL_Window *, unique_ptr<OpenGLRenderer>> initOpenGL(Game::Game *instance);
+        void deinitOpenGL(unique_ptr<OpenGLRenderer> &renderer)
         {
             SDL_GL_DeleteContext(&renderer->ctx);
         }
-        void renderOpenGL(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<OpenGLRenderer> renderer);
+        void renderOpenGL(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<OpenGLRenderer> &renderer);
 #endif
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_OPENGLES)
-        unique_ptr<OpenGLESRenderer> initOpenGLES(SDL_Window *window, Game::Game *instance);
-        void deinitOpenGLES(unique_ptr<OpenGLESRenderer> renderer)
+        pair<SDL_Window *, unique_ptr<OpenGLESRenderer>> initOpenGLES(Game::Game *instance);
+        void deinitOpenGLES(unique_ptr<OpenGLESRenderer> &renderer)
         {
             SDL_GL_DeleteContext(&renderer->ctx);
         }
-        void renderOpenGLES(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<OpenGLESRenderer> renderer);
+        void renderOpenGLES(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<OpenGLESRenderer> &renderer);
 #endif
-// #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_PSGL)
-//         auto *initPSGL(SDL_Window *window, Game::Game *instance);
-//         void deinitPSGL(unique_ptr<PSGLRenderer> renderer)
-//         {
-//         }
-// #endif
-// #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_GNM)
-//         auto *initGNM(SDL_Window *window, Game::Game *instance);
-//         void deinitGNM(unique_ptr<GNMRenderer> renderer)
-//         {
-//         }
-// #endif
-// #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_GNMX)
-//         auto *initGNMX(SDL_Window *window, Game::Game *instance);
-//         void deinitGNMX(unique_ptr<GNMXRenderer> renderer)
-//         {
-//         }
-// #endif
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_DIRECTX)
-        unique_ptr<D3D9Renderer> initDirectX9(SDL_Window *window, Game::Game *instance);
-        void deinitDirectX9(unique_ptr<D3D9Renderer> renderer)
+        pair<SDL_Window *, unique_ptr<D3D9Renderer>> initDirectX9(Game::Game *instance);
+        void deinitDirectX9(unique_ptr<D3D9Renderer> &renderer)
         {
             renderer->ctx->Release();
             SDL_DestroyRenderer(renderer->renderer);
         }
-        void renderDirectX9(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D9Renderer> renderer);
-        unique_ptr<D3D11Renderer> initDirectX11(SDL_Window *window, Game::Game *instance);
-        void deinitDirectX11(unique_ptr<D3D11Renderer> renderer)
+        void renderDirectX9(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D9Renderer> &renderer);
+        pair<SDL_Window *, unique_ptr<D3D11Renderer>> initDirectX11(Game::Game *instance);
+        void deinitDirectX11(unique_ptr<D3D11Renderer> &renderer)
         {
             renderer->ctx->Release();
             SDL_DestroyRenderer(renderer->renderer);
         }
-        void renderDirectX11(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D11Renderer> renderer);
-        unique_ptr<D3D12Renderer> initDirectX12(SDL_Window *window, Game::Game *instance);
-        void deinitDirectX12(unique_ptr<D3D12Renderer> renderer)
+        void renderDirectX11(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D11Renderer> &renderer);
+        pair<SDL_Window *, unique_ptr<D3D12Renderer>> initDirectX12(Game::Game *instance);
+        void deinitDirectX12(unique_ptr<D3D12Renderer> &renderer)
         {
             renderer->ctx->Release();
             SDL_DestroyRenderer(renderer->renderer);
         }
-        void renderDirectX12(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D12Renderer> renderer);
+        void renderDirectX12(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<D3D12Renderer> &renderer);
 #endif
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_METAL)
-        unique_ptr<MetalRenderer> initMetal(SDL_Window *window, Game::Game *instance);
-        void deinitMetal(unique_ptr<MetalRenderer> renderer)
+        pair<SDL_Window *, unique_ptr<MetalRenderer>> initMetal(Game::Game *instance);
+        void deinitMetal(unique_ptr<MetalRenderer> &renderer)
         {
             SDL_DestroyRenderer(renderer->renderer);
         }
-        void renderMetalCpp(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<MetalRenderer> renderer);
-        void renderMetal(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<MetalRenderer> renderer);
+        void renderMetalCpp(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<MetalRenderer> &renderer);
+        void renderMetal(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<MetalRenderer> &renderer);
 #endif
 #if defined(HASILWGDF_GRAPHICS_API_SUPPORTED_VULKAN)
-        unique_ptr<VulkanRenderer> initVulkan(SDL_Window *window, Game::Game *instance);
-        void deinitVulkan(unique_ptr<VulkanRenderer> renderer)
+        pair<SDL_Window *, unique_ptr<VulkanRenderer>> initVulkan(Game::Game *instance);
+        void deinitVulkan(unique_ptr<VulkanRenderer> &renderer)
         {
         }
-        void renderVulkan(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<VulkanRenderer> renderer);
+        void renderVulkan(double alpha, SDL_Window *window, Game::Game *instance, unique_ptr<VulkanRenderer> &renderer);
 #endif
     }
 }
