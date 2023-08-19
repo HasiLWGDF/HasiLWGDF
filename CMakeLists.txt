@@ -107,6 +107,7 @@ if (APPLE OR (UNIX AND NOT APPLE) OR WIN32)
 endif ()
 
 if (APPLE)
+    set (CMAKE_OSX_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimum macOS version")
     set (DEPENDENCIES_PRIVATE ${DEPENDENCIES_PRIVATE} "-framework Metal" "-framework QuartzCore")
 endif ()
 
