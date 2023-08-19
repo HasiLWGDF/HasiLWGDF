@@ -1,3 +1,6 @@
 [submodule "cmake/subdirs/HasiLWGDF_DiscordRPC"]
 	path = cmake/subdirs/HasiLWGDF_DiscordRPC
 	url = https://github.com/HasiLWGDF/HasiLWGDF-DiscordRPC
+[submodule "cmake/subdirs/stb"]
+	path = cmake/subdirs/stb
+	url = https://github.com/nothings/stb
