@@ -18,10 +18,7 @@
     DO NOT MODIFY THIS FILE UNLESS IT IS NECESSARY TO DO SO.
 */
 
-#import "Renderer.h"
-#import "../utils/Logger.h"
-
-using namespace Hasibix::HasiUtils;
+#import <render/Renderer.hpp>
 
 #ifdef HASILWGDF_GRAPHICS_API_SUPPORTED_METAL
 #define NS_PRIVATE_IMPLEMENTATION
@@ -33,7 +30,7 @@ using namespace Hasibix::HasiUtils;
 namespace Hasibix::HasiLWGDF::Core::Render
 {
     const std::unique_ptr<Logger> pLogger = std::make_unique<Logger>(Logger("MTLRenderer"));
-	class MTLRenderer final : public Renderer
+	class MTLRenderer final : public Graphics::Renderer
 	{
 	private:
 		SDL_Renderer *pRenderer;
@@ -41,24 +38,25 @@ namespace Hasibix::HasiLWGDF::Core::Render
 		bool isInitialized = false;
 
 	public:
-		MTLRenderer(std::unique_ptr<Game::Game> &pInstance) : Renderer(pInstance)
-		{
-		}
+		MTLRenderer() : Renderer()
+        {
+        }
+
 		int init() override
 		{
 			if (!this->isInitialized)
 			{
                 SDL_SetHint(SDL_HINT_RENDER_DRIVER, "metal");
 				this->pWindow = SDL_CreateWindow(
-					this->pInstance->getWindow()->title,
+					"",
 					SDL_WINDOWPOS_CENTERED,
 					SDL_WINDOWPOS_CENTERED,
-					this->pInstance->getWindow()->width,
-					this->pInstance->getWindow()->height,
+					100,
+					100,
 					SDL_WINDOW_RESIZABLE |
 						SDL_WINDOW_SHOWN |
                         SDL_WINDOW_ALLOW_HIGHDPI);
-				if (this->pInstance->getConfig()->graphics.vsync)
+				if (Game::GameManager::config.graphics.vsync)
                 {
                     this->pRenderer = SDL_CreateRenderer(this->pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 					this->pLayer = (__bridge CAMetalLayer *) SDL_RenderGetMetalLayer(pRenderer);
@@ -77,6 +75,7 @@ namespace Hasibix::HasiLWGDF::Core::Render
 				return -1;
 			}
 		}
+
 		int render(float alpha) override
 		{
             if (this->isInitialized)
@@ -93,13 +92,13 @@ namespace Hasibix::HasiLWGDF::Core::Render
 				return -1;
             }
 		}
+
 		int deinit() override
 		{
 			if (this->isInitialized)
 			{
 				SDL_DestroyRenderer(this->pRenderer);
 				SDL_DestroyWindow(this->pWindow);
-				SDL_Quit();
 				this->isInitialized = false;
 				return 0;
 			}
@@ -111,9 +110,9 @@ namespace Hasibix::HasiLWGDF::Core::Render
 		}
 	};
 
-	std::unique_ptr<Renderer> createMTLRenderer(std::unique_ptr<Game::Game> &pInstance)
+	std::unique_ptr<Graphics::Renderer> Graphics::createMTLRenderer()
 	{
-		return std::make_unique<MTLRenderer>(MTLRenderer{pInstance});
+		return std::make_unique<MTLRenderer>(MTLRenderer{});
 	}
 }
 #endif
