@@ -25,7 +25,7 @@ The core of the engine is designed to be lightweight and fast, with minimal over
 | HTML5/Javascript | WebGL, WebGPU | Any | Any | None |
 | Node.JS | WebGL, WebGPU | v14+ | Any | None |
 
-Currently, there is no official support for using build tools other than CMake for using HasiLWGDF. Though you can try it yourself to see if it works (Note: IT IS NOT RECOMMENDED SINCE MOST OF THE DEPENDENCIES REQUIRE CMAKE AND MAKE BREAK EVERYTHING).
+Currently, there is no official support for using build tools other than CMake for using HasiLWGDF. Though you can try it yourself to see if it works (Note: IT IS NOT RECOMMENDED SINCE MOST OF THE DEPENDENCIES REQUIRE CMAKE AND MAY NOT WORK AS INTENDED).
 
 Note that HasiLWGDF project also contains [HasiLWGDF-GS](https://github.com/Hasibix/HasiLWGDF-GS) (Game Server Library, inspired by Unity's NetCode for GameObjects), which is released under the AGPLv3 license, and [HasiLWGDF-Editor](https://github.com/Hasibix/HasiLWGDF-Editor) (Editor interface to make game development even more easier), which is released under the GPLv3 license. 
 
