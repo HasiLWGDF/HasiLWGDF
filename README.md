@@ -27,7 +27,7 @@ The core of the engine is designed to be lightweight and fast, with minimal over
 
 Currently, there is no official support for using build tools other than CMake for using HasiLWGDF. Though you can try it yourself to see if it works (Note: IT IS NOT RECOMMENDED SINCE MOST OF THE DEPENDENCIES REQUIRE CMAKE AND MAKE BREAK EVERYTHING).
 
-Note that HasiLWGDF project also contains [HasiLWGDF-GS](https://github.com/Hasibix/HasiLWGDF-GS) (Game Server Library, similar inspired by Unity's NetCode for GameObjects), which is released under the AGPLv3 license, and [HasiLWGDF-Editor](https://github.com/Hasibix/HasiLWGDF-Editor) (Editor interface to make game development even more easier), which is released under the GPLv3 license. 
+Note that HasiLWGDF project also contains [HasiLWGDF-GS](https://github.com/Hasibix/HasiLWGDF-GS) (Game Server Library, inspired by Unity's NetCode for GameObjects), which is released under the AGPLv3 license, and [HasiLWGDF-Editor](https://github.com/Hasibix/HasiLWGDF-Editor) (Editor interface to make game development even more easier), which is released under the GPLv3 license. 
 
 In future, we might make language bindings for Java, Javascript (Rewrite supporting only WebGL and WebGPU, because Emscripten might not work well since we have multiple graphics APIs and stuff), Node.JS (Rewrite like Javascript, but as a Node.JS package), C#, Haxe, Lua, Rust, Ruby, Go, Python etc.
 
