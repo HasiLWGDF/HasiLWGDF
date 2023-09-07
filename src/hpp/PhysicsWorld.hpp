@@ -20,26 +20,29 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "hasilwgdf/modules/Body.hpp"
+#include "hasilwgdf/modules/Joint.hpp"
+#include "hasilwgdf/Game.hpp"
+#include "hasilwgdf/utils/Logger.hpp"
+#include <map>
+#include <memory>
 
-namespace Hasibix::HasiLWGDF::Core::Math
+using namespace Hasibix::HasiUtils;
+
+namespace Hasibix::HasiLWGDF::Core
 {
-    class Timer final
+    class PhysicsWorld
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
-
     public:
-        Timer()
+        explicit PhysicsWorld()
         {
         }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
+        virtual ~PhysicsWorld() = default;
+        virtual int init() = 0;
+        virtual int update(float delta) = 0;
+        virtual int destroy() = 0;
     };
+
+    std::unique_ptr<PhysicsWorld> createPhysicsWorld2D();
+    std::unique_ptr<PhysicsWorld> createPhysicsWorld3D();
 }

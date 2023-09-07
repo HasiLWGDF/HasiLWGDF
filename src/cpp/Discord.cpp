@@ -18,28 +18,21 @@
     DO NOT MODIFY THIS FILE UNLESS IT IS NECESSARY TO DO SO.
 */
 
-#pragma once
+#include "hasilwgdf/Discord.hpp"
+#include "hasilwgdf/utils/Export.hpp"
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
-
-namespace Hasibix::HasiLWGDF::Core::Math
+namespace Hasibix::HasiLWGDF::Core
 {
-    class Timer final
+    extern "C" HASILWGDF_EXPORT void Discord::setActivity(Activity *activity)
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
-
-    public:
-        Timer()
+        if (activity)
         {
+            currentActivity = std::make_unique<Activity>(*activity);
+            delete activity;
         }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
-    };
+        else
+        {
+            currentActivity = nullptr;
+        }
+    }
 }

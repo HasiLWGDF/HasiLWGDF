@@ -20,26 +20,30 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
-
 namespace Hasibix::HasiLWGDF::Core::Math
 {
-    class Timer final
+    struct Vector2
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+        float x, y;
 
-    public:
-        Timer()
+        Vector2 operator+(Vector2 value)
         {
+            return {x + value.x, y + value.y};
         }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
+
+        Vector2 operator-(Vector2 value)
+        {
+            return {x - value.x, y - value.y};
+        }
+
+        Vector2 operator*(Vector2 value)
+        {
+            return {x * value.x, y * value.y};
+        }
+
+        Vector2 operator/(Vector2 value)
+        {
+            return {x / value.x, y / value.y};
+        }
     };
 }

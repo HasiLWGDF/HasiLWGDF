@@ -20,26 +20,42 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "hasilwgdf/input/Mouse.hpp"
+#include "hasilwgdf/math/Vector2.hpp"
+#include "hasilwgdf/utils/Export.hpp"
+#include "hasilwgdf/utils/Logger.hpp"
+#include <memory>
+#include "SDL_mouse.h"
+#include "SDL_stdinc.h"
 
-namespace Hasibix::HasiLWGDF::Core::Math
+using namespace Hasibix::HasiUtils;
+
+namespace Hasibix::HasiLWGDF::Core::Input
 {
-    class Timer final
+    class _Mouse_ final
     {
     private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+        static _Mouse_ *pInstance;
+
+        Uint32 prevMouseState;
+        Uint32 mouseState;
+
+        int mousePosX;
+        int mousePosY;
+
+        _Mouse_();
+        ~_Mouse_();
 
     public:
-        Timer()
-        {
-        }
+        static _Mouse_ *instance();
+        static void release();
+
+        bool getMouseDown(Mouse::MouseBtn btn);
+        bool getMousePressed(Mouse::MouseBtn btn);
+        bool getMouseReleased(Mouse::MouseBtn btn);
+        Math::Vector2 getMousePos();
+
         void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
+        void updatePrev();
     };
 }

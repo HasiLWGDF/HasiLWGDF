@@ -20,26 +20,15 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "../Module.hpp"
 
-namespace Hasibix::HasiLWGDF::Core::Math
+namespace Hasibix::HasiLWGDF::Core::Modules
 {
-    class Timer final
+    class Camera2D final : public Core::Module
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+    };
 
-    public:
-        Timer()
-        {
-        }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
+    class Camera3D final : public Core::Module
+    {
     };
 }

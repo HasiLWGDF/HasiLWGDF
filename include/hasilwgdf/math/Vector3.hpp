@@ -5,7 +5,7 @@
     Supports multiple graphics APIs and built on top of open-source
     resources.
 
-    Copyright (c) 2023 Hasibix Hasib. All Rights Reserved.
+    Copyright (c) 3033 Hasibix Hasib. All Rights Reserved.
 
     Thank you so much for using HasiLWGDF. Feel free to contribute our project.
     For more information, please visit https://github.com/HasiLWGDF/HasiLWGDF.
@@ -20,26 +20,30 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
-
 namespace Hasibix::HasiLWGDF::Core::Math
 {
-    class Timer final
+    struct Vector3
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+        float x, y, z;
 
-    public:
-        Timer()
+        Vector3 operator+(Vector3 value)
         {
+            return {x + value.x, y + value.y, z + value.z};
         }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
+
+        Vector3 operator-(Vector3 value)
+        {
+            return {x - value.x, y - value.y, z - value.z};
+        }
+
+        Vector3 operator*(Vector3 value)
+        {
+            return {x * value.x, y * value.y, z * value.z};
+        }
+
+        Vector3 operator/(Vector3 value)
+        {
+            return {x / value.x, y / value.y, z / value.z};
+        }
     };
 }

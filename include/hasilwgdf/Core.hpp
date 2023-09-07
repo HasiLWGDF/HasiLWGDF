@@ -20,26 +20,35 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "modules/AudioListener.hpp"
+#include "modules/AudioPlayer.hpp"
+#include "modules/Body.hpp"
+#include "modules/Camera.hpp"
+#include "modules/Joint.hpp"
+#include "modules/Mesh.hpp"
 
-namespace Hasibix::HasiLWGDF::Core::Math
-{
-    class Timer final
-    {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+#include "input/Joystick.hpp"
+#include "input/Keyboard.hpp"
+#include "input/Mouse.hpp"
+#include "input/Touch.hpp"
 
-    public:
-        Timer()
-        {
-        }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
-    };
-}
+#include "math/Quaternion.hpp"
+#include "math/Transform.hpp"
+#include "math/Vector2.hpp"
+#include "math/Vector3.hpp"
+
+#include "graphics/Backend.hpp"
+
+#include "utils/COM.hpp"
+#include "utils/Export.hpp"
+#include "utils/Implementer.hpp"
+#include "utils/JSON.hpp"
+#include "utils/Logger.hpp"
+
+#include "Config.hpp"
+#include "Discord.hpp"
+#include "Game.hpp"
+#include "Group.hpp"
+#include "Item.hpp"
+#include "Module.hpp"
+#include "Resource.hpp"

@@ -20,26 +20,34 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "../math/Quaternion.hpp"
+#include "../math/Vector3.hpp"
 
 namespace Hasibix::HasiLWGDF::Core::Math
 {
-    class Timer final
+    struct Transform
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+        Vector3 position, size;
+        Quaternion rotation;
 
-    public:
-        Timer()
+        Transform operator+(Transform value)
         {
+            return {position + value.position, size + value.size, rotation + value.rotation};
         }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
+
+        Transform operator-(Transform value)
+        {
+            return {position - value.position, size + value.size, rotation - value.rotation};
+        }
+
+        Transform operator*(Transform value)
+        {
+            return {position * value.position, size + value.size, rotation * value.rotation};
+        }
+
+        Transform operator/(Transform value)
+        {
+            return {position / value.position, size + value.size, rotation / value.rotation};
+        }
     };
 }

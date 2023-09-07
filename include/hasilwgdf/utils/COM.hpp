@@ -20,26 +20,12 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
-
-namespace Hasibix::HasiLWGDF::Core::Math
+template <typename T>
+inline void SafeRelease(T &ptr)
 {
-    class Timer final
+    if (ptr != NULL)
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
-
-    public:
-        Timer()
-        {
-        }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
-    };
+        ptr->Release();
+        ptr = NULL;
+    }
 }

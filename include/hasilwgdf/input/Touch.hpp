@@ -20,26 +20,22 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "../math/Vector2.hpp"
+#include "../utils/Export.hpp"
 
-namespace Hasibix::HasiLWGDF::Core::Math
+extern "C"
 {
-    class Timer final
+    namespace Hasibix::HasiLWGDF::Core::Input
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
-
-    public:
-        Timer()
+        class Touch final
         {
-        }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
-    };
+        private:
+            Touch() = delete;
+
+        public:
+            HASILWGDF_EXPORT static bool getTouchDown(int device, int finger, int posX, int posY);
+            HASILWGDF_EXPORT static bool getTouchPressed(int device, int finger, int posX, int posY);
+            HASILWGDF_EXPORT static bool getTouchReleased(int device, int finger, int posX, int posY);
+        };
+    }
 }

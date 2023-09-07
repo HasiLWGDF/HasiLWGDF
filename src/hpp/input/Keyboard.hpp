@@ -20,26 +20,39 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "hasilwgdf/input/Keyboard.hpp"
+#include "hasilwgdf/utils/Export.hpp"
+#include "hasilwgdf/utils/Logger.hpp"
+#include <memory>
+#include "SDL_keyboard.h"
+#include "SDL_stdinc.h"
 
-namespace Hasibix::HasiLWGDF::Core::Math
+using namespace Hasibix::HasiUtils;
+
+namespace Hasibix::HasiLWGDF::Core::Input
 {
-    class Timer final
+    class _Keyboard_ final
     {
     private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+        static _Keyboard_ *pInstance;
+
+        Uint8 *pPrevKeyboardState;
+        const Uint8 *pKeyboardState;
+        int keyLength;
+
+        _Keyboard_();
+        ~_Keyboard_();
 
     public:
-        Timer()
-        {
-        }
+        static _Keyboard_ *instance();
+        static void release();
+
+        bool getKeyDown(Keyboard::KeyCode key);
+        bool getKeyPressed(Keyboard::KeyCode key);
+        bool getKeyReleased(Keyboard::KeyCode key);
+        float getKeyAxis(Keyboard::KeyCode positive, Keyboard::KeyCode negative);
+
         void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
+        void updatePrev();
     };
 }

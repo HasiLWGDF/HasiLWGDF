@@ -14,32 +14,25 @@
     You can find copy of the license from https://www.gnu.org/licenses.
 
     It is recommended NOT to modify this file. As doing such may result in compatibility
-    issues or even PERMANENT damage to your project.
+    issues or even PERMANENT damage to your project or device.
     DO NOT MODIFY THIS FILE UNLESS IT IS NECESSARY TO DO SO.
 */
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "../Module.hpp"
+#include "../utils/Export.hpp"
 
-namespace Hasibix::HasiLWGDF::Core::Math
+extern "C"
 {
-    class Timer final
+    namespace Hasibix::HasiLWGDF::Core::Modules
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
-
-    public:
-        Timer()
+        class AudioPlayer2D final : public Core::Module
         {
-        }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
-    };
+        };
+
+        class AudioPlayer3D final : public Core::Module
+        {
+        };
+    }
 }

@@ -18,34 +18,33 @@
     DO NOT MODIFY THIS FILE UNLESS IT IS NECESSARY TO DO SO.
 */
 
-#include <math/Timer.hpp>
-#include <SDL.h>
+#include "../../hpp/math/Timer.hpp"
 
 namespace Hasibix::HasiLWGDF::Core::Math
 {
     void Timer::update()
     {
         std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
-        std::chrono::high_resolution_clock::duration tickDifference = this->lastTime - currentTime;
-        this->deltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(tickDifference).count() * Game::GameManager::config.timescale;
-        this->lastTime = currentTime;
-        this->fpsCounter++;
+        std::chrono::high_resolution_clock::duration tickDifference = lastTime - currentTime;
+        deltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(tickDifference).count() * Game::config.timescale;
+        lastTime = currentTime;
+        fpsCounter++;
 
-        if (currentTime >= this->lastTime)
+        if (currentTime >= lastTime)
         {
-            this->fps = this->fpsCounter;
-            this->fpsCounter = 0;
+            fps = fpsCounter;
+            fpsCounter = 0;
         }
     }
 
     float Timer::getDeltaTime()
     {
-        return this->deltaTime;
+        return deltaTime;
     }
 
     int Timer::getFps()
     {
-        return this->fps;
+        return fps;
     }
 
     float Timer::getTime()

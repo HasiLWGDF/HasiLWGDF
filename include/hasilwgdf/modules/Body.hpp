@@ -20,26 +20,38 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include "../Module.hpp"
+#include "../math/Vector2.hpp"
 
-namespace Hasibix::HasiLWGDF::Core::Math
+namespace Hasibix::HasiLWGDF::Core::Modules
 {
-    class Timer final
+    enum BodyType
     {
-    private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+        STATIC = 0,
+        KINEMATIC,
+        DYNAMIC,
+    };
 
-    public:
-        Timer()
-        {
-        }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
+    struct BodyDef final
+    {
+        BodyType type;
+        Math::Vector2 linearVelocity;
+        float angularVelocity;
+        float linearDamping;
+        float angularDamping;
+        bool allowSleep;
+        bool awake;
+        bool fixedRotation;
+        bool bullet;
+        bool enabled;
+        float gravityScale;
+    };
+
+    class Body2D final : public Core::Module
+    {
+    };
+
+    class Body3D final : public Core::Module
+    {
     };
 }

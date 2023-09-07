@@ -20,26 +20,22 @@
 
 #pragma once
 
-#include <chrono>
-#include "hasilwgdf/Core.hpp"
+#include <functional>
 
-namespace Hasibix::HasiLWGDF::Core::Math
+namespace Hasibix::HasiUtils
 {
-    class Timer final
+    template <typename R, typename F, typename... A>
+    class Implementer
     {
     private:
-        std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
-        float deltaTime;
-        int fps;
-        int fpsCounter;
+        R(*run)
+        (A...);
+        friend F;
 
     public:
-        Timer()
+        void implement(R (*func)(A...))
         {
+            run = func;
         }
-        void update();
-        float getDeltaTime();
-        int getFps();
-        float getTime();
     };
 }
