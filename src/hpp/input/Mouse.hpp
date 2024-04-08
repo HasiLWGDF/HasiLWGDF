@@ -1,22 +1,22 @@
 /*
- HasiLWGDF (Hasibix's Lightweight Game Development Framework)
+	HasiLWGDF (Hasibix's Lightweight Game Development Framework)
 
- A simple, cross-platform game engine made with C++.
- Supports multiple graphics APIs and built on top of open-source
- resources.
+	A simple, cross-platform game engine made with C++.
+	Supports multiple graphics APIs and built on top of open-source
+	resources.
 
- Copyright (c) 2024 Hasibix Hasib. All Rights Reserved.
+	Copyright (c) 2024 Hasibix Hasib. All Rights Reserved.
 
- Thank you so much for using HasiLWGDF. Feel free to contribute our project.
- For more information, please visit https://github.com/HasiLWGDF/HasiLWGDF.
+	Thank you so much for using HasiLWGDF. Feel free to contribute our project.
+	For more information, please visit https://github.com/HasiLWGDF/HasiLWGDF.
 
- This library is licensed under GNU Lesser General Public License version 3 (LGPLv3).
- You can find copy of the license from https://www.gnu.org/licenses.
+	This library is licensed under GNU Lesser General Public License version 3 (LGPLv3).
+	You can find copy of the license from https://www.gnu.org/licenses.
 
- It is recommended NOT to modify this file. As doing such may result in compatibility
- issues or even PERMANENT damage to your project.
- DO NOT MODIFY THIS FILE UNLESS IT IS NECESSARY TO DO SO.
- */
+	It is recommended NOT to modify this file. As doing such may result in compatibility
+	issues or even PERMANENT damage to your project.
+	DO NOT MODIFY THIS FILE UNLESS IT IS NECESSARY TO DO SO.
+*/
 
 #pragma once
 
@@ -30,30 +30,32 @@
 
 using namespace Hasibix::HasiUtils;
 
-namespace Hasibix::HasiLWGDF::Core::Input {
-class _Mouse_ final {
-private:
-	static _Mouse_ *pInstance;
+namespace Hasibix::HasiLWGDF::Core::Input
+{
+	class _Mouse_ final
+	{
+	private:
+		static _Mouse_ *pInstance;
 
-	Uint32 prevMouseState = NULL;
-	Uint32 mouseState = NULL;
+		Uint32 prevMouseState = NULL;
+		Uint32 mouseState = NULL;
 
-	int mousePosX = 0;
-	int mousePosY = 0;
+		int mousePosX = 0;
+		int mousePosY = 0;
 
-	_Mouse_();
-	~_Mouse_();
+		_Mouse_();
+		~_Mouse_();
 
-public:
-	static _Mouse_* instance();
-	static void release();
+	public:
+		static _Mouse_ *instance();
+		static void release();
 
-	bool getMouseDown(Mouse::MouseBtn btn);
-	bool getMousePressed(Mouse::MouseBtn btn);
-	bool getMouseReleased(Mouse::MouseBtn btn);
-	Math::Vector2 getMousePos();
+		bool getMouseDown(Mouse::MouseBtn btn);
+		bool getMousePressed(Mouse::MouseBtn btn);
+		bool getMouseReleased(Mouse::MouseBtn btn);
+		Math::Vector2 getMousePos();
 
-	void update();
-	void updatePrev();
-};
+		void update();
+		void updatePrev();
+	};
 }
