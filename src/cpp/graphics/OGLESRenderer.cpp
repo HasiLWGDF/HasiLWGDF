@@ -5,7 +5,7 @@
 	Supports multiple graphics APIs and built on top of open-source
 	resources.
 
-	Copyright (c) 2023 Hasibix Hasib. All Rights Reserved.
+	Copyright (c) 2024 Hasibix Hasib. All Rights Reserved.
 
 	Thank you so much for using HasiLWGDF. Feel free to contribute our project.
 	For more information, please visit https://github.com/HasiLWGDF/HasiLWGDF.

@@ -6,30 +6,27 @@ As said earlier, HasiLWGDF supports multiple graphics backend. Such as OpenGL (3
 
 The core of the engine is designed to be lightweight and fast, with minimal overhead and efficient resource management. It supports a variety of platforms, and can be easily integrated with other libraries and frameworks.
 
-## Supported Platforms
-| OS | Renderers | Versions/Variants | Architectures | Compilers |
-|-|-|-|-|-|
-| Android | OpenGL ES, Software, Vulkan | 6+ | arm, arm64, amd64, i386 | Clang, GCC |
-| Android TV | OpenGL ES, Software, Vulkan | 9+ | arm, arm64, i386, amd64 | Clang, GCC |
-| FreeBSD | OpenGL, Software, Vulkan | Any | amd64, i386 | Clang, GCC |
-| iOS | Metal, OpenGL ES, Software, Vulkan | 9+ | arm, arm64, amd64 | Apple Clang |
-| Linux | OpenGL, Software, Vulkan | Any | amd64, arm64, i386 | Clang, GCC |
-| macOS | Metal, OpenGL, Software, Vulkan | 11+ | amd64, arm64 | Apple Clang, GCC |
-| OpenBSD | OpenGL, Software, Vulkan | Any | amd64, i386 | Clang, GCC |
-| Switch | Software, Vulkan | Any | Any | Clang, GCC |
-| tvOS | Metal, Software, Vulkan | Any | arm64, amd64 | Apple Clang |
-| UWP | Direct3D/DirectX, Software | Any | Any | MSVC |
-| watchOS | Metal, Software, Vulkan | Any | arm, arm64, amd64 | Apple Clang |
-| Windows | Direct3D/DirectX, OpenGL, Software, Vulkan | 7+ | amd64, i386 | MinGW, MSYS, MSVC |
-| Xbox | Direct3D/DirectX, Software | 360, One, series s/x | Any | MSVC |
-| HTML5/Javascript | WebGL, WebGPU | Any | Any | None |
-| Node.JS | WebGL, WebGPU | v14+ | Any | None |
+## Platforms
+| OS | Renderers | Versions/Variants | Architectures | Compilers | Support |
+|-|-|-|-|-|-|
+| Android | OpenGL ES, Software, Vulkan | 6+ | arm, arm64, amd64, i386 | Clang, GCC | WIP 🔧 |
+| Android TV | OpenGL ES, Software, Vulkan | 9+ | arm, arm64, i386, amd64 | Clang, GCC | Delayed ⏱ |
+| iOS | Metal, OpenGL ES, Software, Vulkan | 12+ | arm, arm64, amd64 | Apple Clang | Delayed ⏱ |
+| Linux | OpenGL, Software, Vulkan | Any | amd64, arm64, i386 | Clang, GCC | WIP 🔧 |
+| macOS | Metal, OpenGL, Software, Vulkan | 11+ | amd64, arm64 | Apple Clang, GCC | Delayed ⏱ |
+| UWP | Direct3D/DirectX, Software | Any | Any | MSVC | Delayed ⏱ |
+| Windows | Direct3D/DirectX, OpenGL, Software, Vulkan | 7+ | amd64, i386 | MinGW, MSYS, MSVC | WIP 🔧 |
+| HTML5/Javascript | WebGL, WebGPU | Any | Any | None | Delayed ⏱ |
+| Node.JS | WebGL, WebGPU | v14+ | Any | None | Delayed ⏱ |
 
 Currently, there is no official support for using build tools other than CMake for using HasiLWGDF. Though you can try it yourself to see if it works (Note: IT IS NOT RECOMMENDED SINCE MOST OF THE DEPENDENCIES REQUIRE CMAKE AND MAY NOT WORK AS INTENDED).
 
-Note that HasiLWGDF project also contains [HasiLWGDF-GS](https://github.com/Hasibix/HasiLWGDF-GS) (Game Server Library, inspired by Unity's NetCode for GameObjects), which is released under the AGPLv3 license, and [HasiLWGDF-Editor](https://github.com/Hasibix/HasiLWGDF-Editor) (Editor interface to make game development even more easier), which is released under the GPLv3 license. 
+HasiLWGDF Project is split to 3 parts.
+1. Core Library (This repo)
+2. Editor Application ([HasiLWGDF Editor](https://github.com/HasiLWGDF-Editor))
+3. Multiplayer Framework ([HasiLWGDF GS](https://github.com/HasiLWGDF-GS))
 
-In future, we might make language bindings for Java, Javascript (Rewrite supporting only WebGL and WebGPU, because Emscripten might not work well since we have multiple graphics APIs and stuff), Node.JS (Rewrite like Javascript, but as a Node.JS package), C#, Haxe, Lua, Rust, Ruby, Go, Python etc.
+In future, we might make language bindings for Java, JavaScript (Rewrite supporting only WebGL and WebGPU, because Emscripten might not work well since we have multiple graphics APIs and stuff), Node.JS (Rewrite like JavaScript, but as a Node.JS package), C#, Haxe, Lua, Rust, Ruby, Go, Python etc.
 
 All kind of contributions and feedback are welcome!
 
@@ -43,7 +40,7 @@ Coming soon!
 
 <big><pre>
 -----BEGIN LICENSE BLOCK-----
-Copyright (c) 2023 Hasibix Hasib. All Rights Reserved.
+Copyright (c) 2024 Hasibix Hasib. All Rights Reserved.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as
