@@ -23,8 +23,8 @@ Currently, there is no official support for using build tools other than CMake f
 
 HasiLWGDF Project is split into 3 parts.
 1. Core Library (This repo)
-2. Editor Application ([HasiLWGDF Editor](https://github.com/HasiLWGDF-Editor))
-3. Multi-Player Framework ([HasiLWGDF GS](https://github.com/HasiLWGDF-GS))
+2. Editor Application ([HasiLWGDF Editor](https://github.com/HasiLWGDF/HasiLWGDF-Editor))
+3. Multi-Player Framework ([HasiLWGDF GS](https://github.com/HasiLWGDF/HasiLWGDF-GS))
 
 In future, we might make language bindings for Java, JavaScript (Rewrite supporting only WebGL and WebGPU, because Emscripten might not work well since we have multiple graphics APIs and stuff), Node.JS (Rewrite like JavaScript, but as a Node.JS package), C#, Haxe, Lua, Rust, Ruby, Go, Python etc.
 
